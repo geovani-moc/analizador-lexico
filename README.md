@@ -1,26 +1,26 @@
-# analizador-lexico
+<h1># analizador-lexico</h1>
 
-Requisitos: 
+<h3>Requisitos: </h3>
 jAVACC (7.0.5)
 
-exemplo de compilação:
+<h3>exemplo de compilação:</h3>
 java -classpath /endereco/do/javacc.jar javacc Simple1.jj
 
+<p>Para consultar a definição dos tipos de tokens,acessar a especificação do C versao ANSI C89.</p>
+<p>Os tokens que são identificados são os seguintes, tal como descritos na especificação:</p>
 
-Para consultar a definição dos tipos de tokens,acessar a especificação do C versao ANSI C89.
+<p>
+1.keyword: aquelas listadas como keywords do ANSI C89</br>
+2.identifiers: identificadores, como descrito no manual</br>
+3.integer-constant: números inteiros</br>
+4.floating-constant: números ponto flutuante</br>
+5.character-constant: caractere</br>
+6.string-literal: string</br>
+7.operators  and  punctuators:  operadores</br>
+</p>
 
-Os tokens que são identificados são os seguintes, tal como descritos na especificação:
-
-1.keyword: aquelas listadas como keywords do ANSI C89
-2.identifiers: identificadores, como descrito no manual
-3.integer-constant: números inteiros
-4.floating-constant: números ponto flutuante
-5.character-constant: caractere
-6.string-literal: string
-7.operators  and  punctuators:  operadores
-
-Exemplo de saida:
-
+<h3>Exemplo de saida:</h3>
+<p>
 int
 ID f
 (
@@ -73,3 +73,4 @@ ID x
 ID z
 ;
 }
+</p>
