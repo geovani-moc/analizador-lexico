@@ -1,7 +1,7 @@
 <h1># analizador-lexico</h1>
 
 <h3>Requisitos: </h3>
-jAVACC (7.0.5)
+JAVACC (7.0.5)
 
 <h3>exemplo de compilação:</h3>
 java -classpath /endereco/do/javacc.jar javacc Simple1.jj
