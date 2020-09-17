@@ -1,0 +1,223 @@
+/*
+    Analise lexica
+    Montes Claros - MG - 2020
+
+    Programadores:  Geovani Pereira dos Santos
+                    Alvaro Ernani Fonseca Mota
+    versao do javacc 7.0.5
+*/
+
+PARSER_BEGIN(Clang)
+    public class Clang {
+        public static void main(String[] args) {
+            //throws ParseExeption, TokenMgrError{
+            try{
+                Clang parser = new Clang(System.in);
+                parser.Start();
+            } catch (Throwable e) {
+                System.out.println("Falha na sintaxe: " + e.getMessage());
+            }
+            //}
+        }
+    }
+PARSER_END(Clang)
+
+// PALAVRAS RESERVADAS
+TOKEN:
+{
+    <AUTO : "auto"> {System.out.println(image);}|
+    <BREAK : "break"> {System.out.println(image);}|
+    <CASE : "case"> {System.out.println(image);}|
+    <CHAR : "char"> {System.out.println(image);}|
+    <CONST : "const"> {System.out.println(image);}|
+    <CONTINUE : "continue"> {System.out.println(image);}|
+    <DEFAULT_ : "default"> {System.out.println(image);}|
+    <DO : "do"> {System.out.println(image);}|
+
+    <DOUBLE : "double"> {System.out.println(image);}|
+    <ELSE : "else"> {System.out.println(image);}|
+    <ENUM : "enum"> {System.out.println(image);}|
+    <EXTERN : "extern"> {System.out.println(image);}|
+    <FLOAT : "float"> {System.out.println(image);}|
+    <FOR : "for"> {System.out.println(image);}|
+    <GOTO : "goto"> {System.out.println(image);}|
+    <IF : "if"> {System.out.println(image);}|
+    
+    <INT : "int"> {System.out.println(image);}|
+    <LONG : "long"> {System.out.println(image);}|
+    <REGISTER : "register"> {System.out.println(image);}|
+    <RETURN : "return"> {System.out.println(image);}|
+    <SHORT : "short"> {System.out.println(image);}|
+    <SIGNED : "signed"> {System.out.println(image);}|
+    <SIZEOF : "sizeof"> {System.out.println(image);}|
+    <STATIC : "static"> {System.out.println(image);}|
+    
+    <STRUCT : "struct"> {System.out.println(image);}|
+    <SWITCH : "switch"> {System.out.println(image);}|
+    <TYPEDEF : "typedef"> {System.out.println(image);}|
+    <UNION : "union"> {System.out.println(image);}|
+    <UNSIGNED : "unsigned"> {System.out.println(image);}|
+    <VOID : "void"> {System.out.println(image);}|
+    <VOLATILE : "volatile"> {System.out.println(image);}|
+    <WHILE : "while"> {System.out.println(image);}
+}
+
+// IDENTIFICADORES
+TOKEN:
+{
+    <ID : (<LETTER>)((<LETTER> | (["0"-"9"]))*)>{System.out.println("ID "+ image);}|
+    <#LETTER : ["a"-"z","A"-"Z","_"]>
+}
+
+//NUMEROS INTEIROS
+TOKEN:
+{
+    <DECIMAL_CONSTANT:(["1"-"9"]|(["1"-"9"](["0"-"9"])*)) (<CONSTANT_SUFFIX>)?> {System.out.println("NUM " + image);}|
+    <OCTAL_CONSTANT:( "0" | ( "0" (["0"-"7"])*) ) (<CONSTANT_SUFFIX>)?> {System.out.println("NUM " + image);}|
+    <HEXADECIMAL_CONSTANT: ( "0" ("x"|"X") (["0"-"9","a"-"f","A"-"F"])*) (<CONSTANT_SUFFIX>)?> {System.out.println("NUM " + image);}|
+    <#CONSTANT_SUFFIX: (( ("l"|"L")? ("u"|"U")?) | ( ("u"|"U")? ("l"|"L")?))>
+}
+
+//NUMEROS PONTO FLUTUANTE
+TOKEN:
+{
+    <FLOATING_CONSTANT: ((<FRACTIONAL_CONSTANT>)(<EXPONENT_PART>)?(<FLOATING_SUFFIX>)?)|((<DIGIT_SEQUENCE>)(<EXPONENT_PART>)(<FLOATING_SUFFIX>)?)>{System.out.println("FLOAT "+ image);}|
+    <#FRACTIONAL_CONSTANT: (((<DIGIT_SEQUENCE>)?"."(<DIGIT_SEQUENCE>))|(<DIGIT_SEQUENCE>)".")>|
+    <#EXPONENT_PART: ( ("e"|"E")(<SIGN>)?(<DIGIT_SEQUENCE>))>|
+    <#DIGIT_SEQUENCE: (<DIGIT>)+>|
+    <#DIGIT: ["0"-"9"] >|
+    <#SIGN: ("+"|"-")>|
+    <#FLOATING_SUFFIX: ("f"|"l"|"F"|"L")>
+}
+
+//CARACTERE
+TOKEN:
+{
+    <CARACTER_CONSTRAINT: "'"(<C_CHAR_SEQUENCE>)"'"| "L""'"(<C_CHAR_SEQUENCE>)"'"> {System.out.println("CHAR "+ image);}|
+    <#C_CHAR_SEQUENCE: (<C_CHAR>)+>|
+    <#C_CHAR: ~["\\","'","\n"]|(<ESCAPE_SEQUENCE>)>|
+    <#ESCAPE_SEQUENCE: (<SIMPLE_ESCAPE_SEQUENCE>)|(<OCTAL_ESCAPE_SEQUENCE>)|(<HEXADECIMAL_ESCAPE_SEQUENCE>)>|
+    <#SIMPLE_ESCAPE_SEQUENCE: "\\'"|"\""|"\\?"|"\\\\"|"\\a"|"\\b"|"\\\f"|"\\n"|"\\r"|"\\t"|"\\v">|
+    <#OCTAL_ESCAPE_SEQUENCE: "\\"(<OCTAL_DIGIT>)| "\\"(<OCTAL_DIGIT>){2} | "\\"(<OCTAL_DIGIT>){3} >|
+    <#OCTAL_DIGIT: ["0"-"7"]>|
+    <#HEXADECIMAL_ESCAPE_SEQUENCE: "\\""x"(<HEXADECIMAL_DIGIT>)>|
+    <#HEXADECIMAL_DIGIT: (["0"-"9"]|["A"-"F"])+>
+    
+    // Para usar o barra invertido "\" é necessario usar "\\" ao invés de "\"
+}
+
+//STRING
+TOKEN:
+{
+    <STRING_LITERAL: "\""(<S_CHAR_SEQUENCE>)?"\""| "L\""(<S_CHAR_SEQUENCE>)?"\"" > {System.out.println("STRING "+ image);}|
+    <#S_CHAR_SEQUENCE: (<S_CHAR>)+ >|
+    <#S_CHAR: ~["\"","\\","\n"] | (<ESCAPE_SEQUENCE>)>
+
+    //O ESCAPE_SEQUENCE está definido no parte do CARACTERE
+}
+
+//OPERADORES
+TOKEN:
+{
+    < ECOLCHETE: "["> {System.out.println(image);}|
+    < DCOLCHETE: "]"> {System.out.println(image);}|
+    < EPARENTESE: "("> {System.out.println(image);}|
+    < DPARENTESE: ")"> {System.out.println(image);}|
+    < PONTO: "."> {System.out.println(image);}|
+    < APONTADOR: "->"> {System.out.println(image);}|
+    < MAISMAIS: "++"> {System.out.println(image);}|
+    < MENOSMENOS: "--"> {System.out.println(image);}|
+    < REFERENCIA: "&"> {System.out.println(image);}|
+    < PONTEIRO: "*"> {System.out.println(image);}|
+    < MAIS: "+"> {System.out.println(image);}|
+    < MENOS: "-"> {System.out.println(image);}|
+    < TIL: "~"> {System.out.println(image);}|
+    < NEGADO: "!"> {System.out.println(image);}|
+    // SIZEOF E UM ID E  OPERADOR?
+    //< SIZE: "sizeof"> {System.out.println(image);}|
+    < BARRA: "/"> {System.out.println(image);}|
+    < RESTO: "%"> {System.out.println(image);}|
+    < MENORMENOR: "<<"> {System.out.println(image);}|
+    < MAIORMAIOR: ">>"> {System.out.println(image);}|
+    < MENOR: "<"> {System.out.println(image);}|
+    < MAIOR: ">"> {System.out.println(image);}|
+    < MENORIGUAL: "<="> {System.out.println(image);}|
+    < MAIORIGUAL: ">="> {System.out.println(image);}|
+    < IGUALIGUAL: "=="> {System.out.println(image);}|
+    < DIFERENTE: "!="> {System.out.println(image);}|
+    < CHAPEU: "^"> {System.out.println(image);}|
+    < OU: "|"> {System.out.println(image);}|
+    < EE: "&&"> {System.out.println(image);}|
+    < OUOU: "||"> {System.out.println(image);}|
+    < INTERROGACAO: "?"> {System.out.println(image);}|
+    < DOISPONTOS: ":"> {System.out.println(image);}|
+    < IGUAL: "="> {System.out.println(image);}|
+    < VEZESIGUAL: "*="> {System.out.println(image);}|
+    < DIVIDEIGUAL: "/="> {System.out.println(image);}|
+    < RESTOIGUAL: "%="> {System.out.println(image);}|
+    < MAISIGUAL: "+="> {System.out.println(image);}|
+    < MENOSIGUAL: "-="> {System.out.println(image);}|
+    < MENORMENORIGUAL: "<<="> {System.out.println(image);}|
+    < MAIORMAIORIGUAL: ">>="> {System.out.println(image);}|
+    < REFERENCIAIGUAL: "&="> {System.out.println(image);}|
+    < CHAPEUIGUAL: "^="> {System.out.println(image);}|
+    < OUIGUAL: "|="> {System.out.println(image);}|
+    < VIRGULA: ","> {System.out.println(image);}|
+    < TRALHA: "#"> {System.out.println(image);}|
+    < TRALHATRALHA: "##"> {System.out.println(image);}
+}
+
+//PONTUADORES
+TOKEN:
+{
+    < ECHAVE: "{"> {System.out.println(image);}|
+    < DCHAVE: "}"> {System.out.println(image);}|
+    < TRESPONTOS: "..."> {System.out.println(image);}|
+    < PONTOVIRGULA: ";"> {System.out.println(image);}
+}
+
+SKIP:
+{
+    "\n"|"\r"|"\r\n"|" "
+}
+
+//ORDEM DE PRIORIDADE
+// testar prioridade -> int e float
+void Start(): {}
+{
+    (
+        //PALAVRAS RESERVADAS
+        <AUTO>|<BREAK>|<CASE>|<CHAR>|<CONST>|<CONTINUE>|<DEFAULT_>|<DO>|
+        <DOUBLE>|<ELSE>|<ENUM>|<EXTERN>|<FLOAT>|<FOR>|<GOTO>|<IF>|
+        <INT>|<LONG>|<REGISTER>|<RETURN>|<SHORT>|<SIGNED>|<SIZEOF>|<STATIC>|
+        <STRUCT>|<SWITCH>|<TYPEDEF>|<UNION>|<UNSIGNED>|<VOID>|<VOLATILE>|<WHILE>|
+        
+        //IDENTIFICADORES
+        <ID>|
+        
+        //NUMEROS PONTO FLUTUANTE
+        <FLOATING_CONSTANT>|
+
+        //NUMEROS INTEIROS
+        <DECIMAL_CONSTANT>|<OCTAL_CONSTANT>|<HEXADECIMAL_CONSTANT>|
+        
+        //CARACTERE
+        <CARACTER_CONSTRAINT>|
+
+        //STRING
+        <STRING_LITERAL>|
+
+        //OPERADORES
+        < ECOLCHETE> |< DCOLCHETE> |< EPARENTESE> |< DPARENTESE> |< PONTO> |< APONTADOR> |< MAISMAIS> |
+        < MENOSMENOS> |< REFERENCIA> |< PONTEIRO> |< MAIS> |< MENOS> |< TIL> |< NEGADO> /*|< SIZE>*/ |
+        < BARRA> |< RESTO> |< MENORMENOR> |< MAIORMAIOR> |< MENOR> |< MAIOR> |< MENORIGUAL> |
+        < MAIORIGUAL> |< IGUALIGUAL> |< DIFERENTE> |< CHAPEU> |< OU> |< EE> |< OUOU> |< INTERROGACAO> |
+        < DOISPONTOS> |< IGUAL> |< VEZESIGUAL> |< DIVIDEIGUAL> |< RESTOIGUAL> |< MAISIGUAL> |
+        < MENOSIGUAL> |< MENORMENORIGUAL> |< MAIORMAIORIGUAL> |< REFERENCIAIGUAL> |< CHAPEUIGUAL> |
+        < OUIGUAL> |< VIRGULA> |< TRALHA> |< TRALHATRALHA>|
+
+        //PONTUADORES
+        < ECHAVE> | < DCHAVE> | < TRESPONTOS> | <PONTOVIRGULA>
+
+    )*<EOF>
+}
