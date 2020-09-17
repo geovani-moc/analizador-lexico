@@ -21,56 +21,56 @@ java -classpath /endereco/do/javacc.jar javacc Simple1.jj
 
 <h3>Exemplo de saida:</h3>
 <p>
-int
-ID f
-(
-int
-ID n
-,
-int
-ID x
-,
-int
-ID z
-)
-{
-int
-ID a
-;
-int
-ID b
-;
-int
-ID c
-;
-int
-ID d
-;
-ID a
-=
-ID n
--
-NUM 1
-;
-ID b
-=
-ID f
-(
-ID b
-,
-ID c
-,
-ID d
-)
-;
-return
-ID n
-*
-ID b
-*
-ID x
-*
-ID z
-;
-}
+int</br>
+ID f</br>
+(</br>
+int</br>
+ID n</br>
+,</br>
+int</br>
+ID x</br>
+,</br>
+int</br>
+ID z</br>
+)</br>
+{</br>
+int</br>
+ID a</br>
+;</br>
+int</br>
+ID b</br>
+;</br>
+int</br>
+ID c</br>
+;</br>
+int</br>
+ID d</br>
+;</br>
+ID a</br>
+=</br>
+ID n</br>
+-</br>
+NUM 1</br>
+;</br>
+ID b</br>
+=</br>
+ID f</br>
+(</br>
+ID b</br>
+,</br>
+ID c</br>
+,</br>
+ID d</br>
+)</br>
+;</br>
+return</br>
+ID n</br>
+*</br>
+ID b</br>
+*</br>
+ID x</br>
+*</br>
+ID z</br>
+;</br>
+}</br>
 </p>
